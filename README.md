@@ -1,26 +1,114 @@
-# Reverse Proxy for Digital Mafia APIs
+# 🛡️ API Reverse Proxy
 
-Node.js + Express reverse proxy for Digital Mafia API microservices.
+Reverse proxy server for backend APIs under `api.digital-mafia.co.za`.
 
-Combines multiple backend services (hosted on Render) under a single API domain with clean path-based routing:
-
-- `/task-manager` → Task Manager API
-
-Built with:
-- [Express](https://expressjs.com/) – lightweight HTTP server
-- [http-proxy-middleware](https://www.npmjs.com/package/http-proxy-middleware) – reverse proxy logic
-- [dotenv](https://www.npmjs.com/package/dotenv) – manage config with environment variables
+Routes requests to internal API services like Task Manager, Customer CMS, and others.
 
 ---
 
-## 📦 **Project structure**
+## ✨ Features
+- Central reverse proxy for all backend services
+- Supports multiple internal and external API targets
+- Built with Node.js, Express, and http-proxy-middleware
+- Clean, modular proxy config
 
-```plaintext
-reverse-proxy/
-├── index.js                 # Main server file
-├── package.json
-├── .env                     # Local config (never commit!)
+---
+
+## 📦 Folder structure
+```
+
+api-reverse-proxy/
 ├── config/
-│   └── proxies.js           # Proxy rules
-├── .gitignore
+│   └── proxies.js         # Proxy rules (targets, paths, rewrites)
+├── .env                   # Environment variables
+├── index.js               # Entry point
+├── package.json
 └── README.md
+
+````
+
+---
+
+## ⚙️ Local development
+
+Clone and run locally:
+```bash
+git clone https://github.com/YOUR_USERNAME/api-reverse-proxy.git
+cd api-reverse-proxy
+npm install
+npm start
+````
+
+Starts at:
+
+```
+http://localhost:5000
+```
+
+---
+
+## 🧪 Example routes
+
+| Path                | Target backend API                                    |
+| ------------------- | ----------------------------------------------------- |
+| `/task-manager` | Task Manager backend |
+| `/user-manager` | User Manager backend |
+| ...                 | Add more as needed |
+
+### Adding a route:  
+In the module.exports dictionary at `config/proxies.js` add:
+```
+path: "/path-to-route",
+middleware: createProxyMiddleware({
+  target: process.env.TARGET_ROUTE_URL,
+  changeOrigin: true,
+}),
+```
+
+And add `TARGET_ROUTE_URL` in `.env`.
+
+---
+
+## 🌱 Environment variables (`.env`)
+
+| Key                | Example                                  | Purpose                              |
+| ------------------ | ---------------------------------------- | ------------------------------------ |
+| TASK\_MANAGER\_URL | `https://task-tracker.onrender.com` | Task Manager API target              |
+| USER\_MANAGER\_URL | `https://user-manager.onrender.com` | User Manager API target              |
+| PORT               | `5000`                                   | Local port (Render overrides \$PORT) |
+
+---
+
+## ☁️ Deployment (Render.com)
+
+1. Push to GitHub.
+2. Create a Render **Web Service**.
+3. Build command:
+
+   ```bash
+   npm install
+   ```
+4. Start command:
+
+   ```bash
+   npm start
+   ```
+5. Add environment variables on Render.
+6. Add custom domain:
+
+   ```
+   api.digital-mafia.co.za
+   ```
+
+---
+
+## ✅ Best practices
+
+* Keep `.env` out of version control (`.gitignore`).
+* Use `changeOrigin: true` when proxying to Render.
+
+---
+
+## 🧠 License
+
+MIT — Digital Mafia
