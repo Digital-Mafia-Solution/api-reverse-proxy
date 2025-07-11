@@ -1,5 +1,5 @@
 {
-  "name": "@digital-mafia/reverse-proxy",
+  "name": "@digital-mafia/api-reverse-proxy",
   "version": "1.0.0",
   "description": "Node.js reverse proxy for Digital Mafia API services",
   "main": "index.js",
