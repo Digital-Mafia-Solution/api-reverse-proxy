@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const proxies = require("./config/proxies");
 
 const app = express();
